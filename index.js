@@ -8,8 +8,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+console.log("Mongo URI →", process.env.MONGO_URI);
+
 mongoose
-  .connect("mongodb://localhost:27017/TodoList")
+  .connect(process.env.MONGO_URI || "mongodb://localhost:27017/test")
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log("MongoDB connection error: ", err));
 
@@ -56,12 +58,8 @@ app.delete("/delete/:id", (req, res) => {
     });
 });
 
-// const todoRoutes = require("./Controller");
-// app.use("/api/todos", todoRoutes);
-
-module.exports = app; 
-
-// port = process.env.port || 3002;
-// app.listen(port, () => {
-//   console.log(`Running in ${port}`);
-// });
+port = process.env.port || 3002;
+app.listen(port, () => {
+  // console.log("Mongo URI:", process.env.MONGO_URI);
+  console.log(`Running in ${port}`);
+});
